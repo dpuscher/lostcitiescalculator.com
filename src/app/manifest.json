@@ -18,6 +18,7 @@
   ],
   "theme_color": "#0a0a0a",
   "background_color": "#0a0a0a",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
   "id": "app.dpuscher.lost-cities-scores",
