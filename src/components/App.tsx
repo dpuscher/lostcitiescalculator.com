@@ -54,23 +54,23 @@ const App = () => {
   const scorePlayer2 = scoreRound1Player2 + scoreRound2Player2 + scoreRound3Player2;
 
   return (
-    <div className="flex flex-col p-0 max-w-[420px] mx-auto min-h-screen justify-between relative">
+    <div className="relative mx-auto flex min-h-screen max-w-[420px] flex-col justify-between p-0">
       <SettingsPanel />
 
-      <header className="flex justify-center items-baseline gap-4 pt-2 mb-4">
-        <div className="[background-image:linear-gradient(#d11111,#ffc53d)] bg-clip-text text-transparent font-bold text-2xl italic leading-none">
+      <header className="mb-4 flex items-baseline justify-center gap-4 pt-2">
+        <div className="bg-clip-text font-bold text-2xl text-transparent italic leading-none [background-image:linear-gradient(#d11111,#ffc53d)]">
           Lost Cities
         </div>
-        <div className="font-bold text-[#efe9f5] leading-none text-base">Score Calculator</div>
+        <div className="font-bold text-[#efe9f5] text-base leading-none">Score Calculator</div>
       </header>
 
       {/* Scores summary */}
-      <div className="flex gap-4 px-4 mb-4">
+      <div className="mb-4 flex gap-4 px-4">
         {/* Player 1 */}
-        <div className="flex flex-col items-center font-bold flex-1">
+        <div className="flex flex-1 flex-col items-center font-bold">
           <div className="flex flex-col">
             <div className="mx-auto font-extrabold text-2xl">{scorePlayer1}</div>
-            <div className="flex mx-auto font-semibold gap-2 opacity-70">
+            <div className="mx-auto flex gap-2 font-semibold opacity-70">
               <div className="flex flex-col">{scoreRound1Player1}</div>
               <div>+</div>
               <div className="flex flex-col">{scoreRound2Player1}</div>
@@ -83,10 +83,10 @@ const App = () => {
         </div>
 
         {/* Player 2 */}
-        <div className="flex flex-col items-center font-bold flex-1">
+        <div className="flex flex-1 flex-col items-center font-bold">
           <div className="flex flex-col">
             <div className="mx-auto font-extrabold text-2xl">{scorePlayer2}</div>
-            <div className="flex mx-auto font-semibold gap-2 opacity-70">
+            <div className="mx-auto flex gap-2 font-semibold opacity-70">
               <div className="flex flex-col">{scoreRound1Player2}</div>
               <div>+</div>
               <div className="flex flex-col">{scoreRound2Player2}</div>
@@ -100,8 +100,8 @@ const App = () => {
       </div>
 
       {/* Buttons / SegmentedControls */}
-      <div className="flex px-4 gap-2 mb-4">
-        <div className="flex-auto flex flex-col gap-2">
+      <div className="mb-4 flex gap-2 px-4">
+        <div className="flex flex-auto flex-col gap-2">
           {/* Round selector */}
           <SegmentedControl
             segments={["Round 1", "Round 2", "Round 3"]}
@@ -121,7 +121,7 @@ const App = () => {
 
         {/* Reset button */}
         <button
-          className="border-white bg-none text-xs uppercase rounded border-[3px] text-white font-bold px-4 transition-all duration-200 active:bg-white active:text-black"
+          className="rounded border-[3px] border-white bg-none px-4 font-bold text-white text-xs uppercase transition-all duration-200 active:bg-white active:text-black"
           onClick={() => {
             if (confirm("Are you sure you want to reset?")) {
               resetGame();
@@ -138,8 +138,8 @@ const App = () => {
       {/* Round details */}
       <RoundCalculator />
 
-      <footer className="px-4 pt-2 pb-2 border-t border-[rgba(255,255,255,0.25)] text-sm text-white">
-        Original implementation by:{" "}
+      <footer className="border-[rgba(255,255,255,0.25)] border-t px-4 pt-2 pb-2 text-sm text-white">
+        Original implementation by:
         <a
           href="https://github.com/ricokahler/lostcitiescalculator.com"
           className="text-[rgba(255,255,255,0.7)] underline"

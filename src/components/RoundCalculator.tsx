@@ -13,7 +13,7 @@ const SUITS: Array<{ suit: Suit; color: string }> = [
 ];
 
 const RoundCalculator = () => (
-  <div className="flex flex-col px-4 mb-4">
+  <div className="mb-4 flex flex-col px-4">
     <div className="flex gap-2">
       {SUITS.map(({ suit, color }) => (
         <ColumnCalculator key={suit} suit={suit} color={color} />

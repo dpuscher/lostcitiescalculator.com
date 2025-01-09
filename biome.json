@@ -15,11 +15,15 @@
   },
   "organizeImports": { "enabled": true },
   "linter": {
-    "enabled": true,
     "rules": {
       "recommended": true,
       "nursery": {
-        "recommended": true
+        "recommended": true,
+        "useSortedClasses": {
+          "level": "error",
+          "fix": "safe",
+          "options": { "attributes": ["class", "className"], "functions": ["twMerge"] }
+        }
       }
     }
   },
