@@ -64,7 +64,7 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
             />
             <label
               htmlFor={inputId}
-              className="flex-[1_0_auto] text-center font-bold mx-[-3px] my-0 z-0 p-1 transition-all duration-200"
+              className="flex-[1_0_auto] text-center font-bold mx-[-3px] my-0 z-0 p-1 transition-all duration-200 cursor-pointer"
               style={{
                 width: segmentWidth,
                 color: isActive ? activeTextColor : inactiveColor,
