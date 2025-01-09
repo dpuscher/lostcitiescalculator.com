@@ -1,11 +1,11 @@
+import gameState, { getCurrentRound, getDisabledCards, handleChange } from "@/stores/gameState";
+import { useStore } from "@nanostores/react";
 import { adjustHue, darken, transparentize } from "color2k";
 import { twMerge } from "tailwind-merge";
 import type { ExpeditionCard, RoundState, Suit } from "./types";
 
 interface ColumnCalculatorProps {
   suit: Suit;
-  state: RoundState;
-  onChange: (reducer: (state: RoundState) => RoundState) => void;
   color: string;
 }
 
@@ -55,8 +55,13 @@ const getCardsInSuit = (expeditions: RoundState["expeditions"], suit: Suit) => {
 const BASE_BUTTON_CLASSES =
   "h-10 border-[3px] border-[var(--suit-inactive)] rounded text-[var(--suit-text)] font-bold transition-color text-2xl inline-flex justify-center items-center";
 
-export function ColumnCalculator({ suit, state, onChange, color = suit }: ColumnCalculatorProps) {
-  const { expeditions, wagers } = state;
+export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) => {
+  const state = useStore(gameState);
+  const round = getCurrentRound(state);
+  const { expeditions, wagers } = round;
+
+  const disabledCards = getDisabledCards(state);
+
   const wager = wagers[suit] ?? 1;
 
   // The expedition card values are always 2..10
@@ -98,7 +103,7 @@ export function ColumnCalculator({ suit, state, onChange, color = suit }: Column
           style={{
             backgroundImage: wager > 1 ? "var(--suit-active)" : undefined,
           }}
-          onClick={() => onChange(updateWager(suit))}
+          onClick={() => handleChange(updateWager(suit))}
           type="button"
         >
           🫱🏼‍🫲🏾{wager > 1 && <span className="text-base">x{wager}</span>}
@@ -108,15 +113,21 @@ export function ColumnCalculator({ suit, state, onChange, color = suit }: Column
         {values.map(value => {
           const key = `${suit}-${value}` as ExpeditionCard;
           const isActive = expeditions[key];
+          const isDisabled = disabledCards.has(key);
 
           return (
             <button
+              disabled={isDisabled}
               key={key}
-              className={twMerge(BASE_BUTTON_CLASSES, isActive && "border-0 text-black")}
+              className={twMerge(
+                BASE_BUTTON_CLASSES,
+                isActive && "border-0 text-black",
+                isDisabled && "opacity-30",
+              )}
               style={{
                 backgroundImage: isActive ? "var(--suit-active)" : undefined,
               }}
-              onClick={() => onChange(toggleExpeditionCard(key))}
+              onClick={() => handleChange(toggleExpeditionCard(key))}
               type="button"
             >
               {value}
@@ -136,4 +147,4 @@ export function ColumnCalculator({ suit, state, onChange, color = suit }: Column
       </div>
     </div>
   );
-}
+};

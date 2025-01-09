@@ -8,7 +8,7 @@ interface SegmentedControlProps {
   color: string;
 }
 
-export function SegmentedControl({ segments, value, onChange, color }: SegmentedControlProps) {
+export const SegmentedControl = ({ segments, value, onChange, color }: SegmentedControlProps) => {
   const id = useId();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,4 +71,4 @@ export function SegmentedControl({ segments, value, onChange, color }: Segmented
       })}
     </div>
   );
-}
+};
