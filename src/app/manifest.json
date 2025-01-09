@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "Lost Cities Scores",
   "short_name": "LC Scores",
   "icons": [
@@ -17,5 +18,9 @@
   ],
   "theme_color": "#0a0a0a",
   "background_color": "#0a0a0a",
-  "display": "standalone"
+  "display": "standalone",
+  "orientation": "portrait",
+  "id": "app.dpuscher.lost-cities-scores",
+  "lang": "en",
+  "prefer_related_applications": false
 }
