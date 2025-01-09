@@ -202,6 +202,8 @@ const App = () => {
           onClick={() => {
             if (confirm("Are you sure you want to reset?")) {
               setState(initialState);
+              setRound("Round 1");
+              setPlayer("Player 1");
             }
           }}
           type="button"
