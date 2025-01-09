@@ -20,7 +20,7 @@ const SettingsPanel = () => {
   return (
     <>
       <button
-        className="absolute top-1 right-0 p-2 text-xl text-gray-400"
+        className="absolute top-1 right-0 p-2 text-gray-400 text-xl"
         onClick={toggleOpen}
         type="button"
       >
@@ -28,9 +28,9 @@ const SettingsPanel = () => {
       </button>
 
       {isOpen && (
-        <div className="mt-1 p-4 border border-gray-200 rounded shadow-lg flex flex-col gap-2">
-          <h2 className="text-lg font-bold leading-none mb-2">Settings</h2>
-          <div className="grid gap-2 grid-cols-[auto_1fr] items-center">
+        <div className="mt-1 flex flex-col gap-2 rounded border border-gray-200 p-4 shadow-lg">
+          <h2 className="mb-2 font-bold text-lg leading-none">Settings</h2>
+          <div className="grid grid-cols-[auto_1fr] items-center gap-2">
             {(
               [
                 ["Player 1", "player1Name", updatePlayer1Name],
@@ -46,7 +46,7 @@ const SettingsPanel = () => {
                   type="text"
                   value={settings[key]}
                   onChange={update}
-                  className="border border-gray-300 rounded p-1 text-black"
+                  className="rounded border border-gray-300 p-1 text-black"
                 />
               </Fragment>
             ))}

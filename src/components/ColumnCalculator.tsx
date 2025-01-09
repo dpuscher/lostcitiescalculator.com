@@ -90,7 +90,7 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
   } as React.CSSProperties;
 
   return (
-    <div className="flex flex-col gap-4 text-center flex-1" style={containerStyles}>
+    <div className="flex flex-1 flex-col gap-4 text-center" style={containerStyles}>
       {/* Controls */}
       <div className="flex flex-col gap-2">
         {/* Wager button */}
@@ -138,7 +138,7 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
 
       {/* Summary */}
       <div className="flex flex-col font-semibold">
-        <div className="flex justify-center items-baseline text-xs gap-1">
+        <div className="flex items-baseline justify-center gap-1 text-xs">
           <div className={twMerge("opacity-70", wager > 1 && "opacity-100")}>{roi}</div>
           <div className={twMerge("opacity-70", wager > 1 && "opacity-100")}>x{wager}</div>
         </div>

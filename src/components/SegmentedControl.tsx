@@ -41,11 +41,11 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
 
   return (
     <div
-      className="relative flex border-solid border-[3px] rounded"
+      className="relative flex rounded border-[3px] border-solid"
       style={{ borderColor: inactiveColor }}
     >
       <div
-        className="absolute pointer-events-none h-[calc(100%+6px)] transition-all duration-200 m-[-3px] rounded"
+        className="pointer-events-none absolute m-[-3px] h-[calc(100%+6px)] rounded transition-all duration-200"
         style={floaterStyle}
       />
       {segmentsArray.map(seg => {
@@ -60,11 +60,11 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
               value={seg.id}
               checked={isActive}
               onChange={handleChange}
-              className="hidden peer"
+              className="peer hidden"
             />
             <label
               htmlFor={inputId}
-              className="flex-[1_0_auto] text-center font-bold mx-[-3px] my-0 z-0 p-1 transition-all duration-200 cursor-pointer"
+              className="z-0 mx-[-3px] my-0 flex-[1_0_auto] cursor-pointer p-1 text-center font-bold transition-all duration-200"
               style={{
                 width: segmentWidth,
                 color: isActive ? activeTextColor : inactiveColor,
