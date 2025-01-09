@@ -1,12 +1,14 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import gameState, { resetGame } from "@/stores/gameState";
+import playerState, { resetPlayer, setPlayer } from "@/stores/playerState";
+import roundState, { resetRound, setRound } from "@/stores/roundState";
+import { useStore } from "@nanostores/react";
 import RoundCalculator from "./RoundCalculator";
 import { SegmentedControl } from "./SegmentedControl";
-import { type GameState, type RoundState, ranks, suits } from "./types";
+import { type RoundState, ranks, suits } from "./types";
 
 /** Compute the total score for a single RoundState. */
-function calculateRoundScore(state: RoundState) {
+const calculateRoundScore = (state: RoundState) => {
   const total = suits
     .map(suit => {
       // Sum all ranks in this suit
@@ -27,49 +29,13 @@ function calculateRoundScore(state: RoundState) {
     .reduce((sum, next) => sum + next, 0);
 
   return total;
-}
-
-/** Initial blank game with 3 rounds each for both players. */
-const initialState: GameState = {
-  player1: [
-    { expeditions: {}, wagers: {} },
-    { expeditions: {}, wagers: {} },
-    { expeditions: {}, wagers: {} },
-  ],
-  player2: [
-    { expeditions: {}, wagers: {} },
-    { expeditions: {}, wagers: {} },
-    { expeditions: {}, wagers: {} },
-  ],
 };
 
 const App = () => {
-  const [state, setState] = useState<GameState>(initialState);
+  const state = useStore(gameState);
 
-  // On first render, load from localStorage if present
-  useEffect(() => {
-    const savedGameState = localStorage.getItem("game_state");
-    if (savedGameState) {
-      try {
-        setState(JSON.parse(savedGameState) as GameState);
-      } catch {
-        // ignore parse errors
-      }
-    }
-  }, []);
-
-  // Persist state to localStorage whenever it changes
-  useEffect(() => {
-    try {
-      localStorage.setItem("game_state", JSON.stringify(state));
-    } catch {
-      // ignore errors (e.g. private/incognito)
-    }
-  }, [state]);
-
-  // The current player and round
-  const [player, setPlayer] = useState<"Player 1" | "Player 2">("Player 1");
-  const [round, setRound] = useState<"Round 1" | "Round 2" | "Round 3">("Round 1");
+  const player = useStore(playerState);
+  const round = useStore(roundState);
 
   // Calculate each round’s score for Player 1
   const scoreRound1Player1 = calculateRoundScore(state.player1[0]);
@@ -82,55 +48,6 @@ const App = () => {
   const scoreRound2Player2 = calculateRoundScore(state.player2[1]);
   const scoreRound3Player2 = calculateRoundScore(state.player2[2]);
   const scorePlayer2 = scoreRound1Player2 + scoreRound2Player2 + scoreRound3Player2;
-
-  // Which RoundState are we currently editing?
-  const roundState = (() => {
-    if (player === "Player 1") {
-      if (round === "Round 1") return state.player1[0];
-      if (round === "Round 2") return state.player1[1];
-      return state.player1[2];
-    }
-    if (round === "Round 1") return state.player2[0];
-    if (round === "Round 2") return state.player2[1];
-    return state.player2[2];
-  })();
-
-  // A callback for RoundCalculator that updates the relevant round
-  const handleChange = (updateRound: (rs: RoundState) => RoundState) => {
-    setState(prev => {
-      if (player === "Player 1") {
-        if (round === "Round 1") {
-          return {
-            ...prev,
-            player1: [updateRound(prev.player1[0]), prev.player1[1], prev.player1[2]],
-          };
-        }
-        if (round === "Round 2") {
-          return {
-            ...prev,
-            player1: [prev.player1[0], updateRound(prev.player1[1]), prev.player1[2]],
-          };
-        }
-        return {
-          ...prev,
-          player1: [prev.player1[0], prev.player1[1], updateRound(prev.player1[2])],
-        };
-      }
-      if (round === "Round 1") {
-        return {
-          ...prev,
-          player2: [updateRound(prev.player2[0]), prev.player2[1], prev.player2[2]],
-        };
-      }
-      if (round === "Round 2") {
-        return {
-          ...prev,
-          player2: [prev.player2[0], updateRound(prev.player2[1]), prev.player2[2]],
-        };
-      }
-      return { ...prev, player2: [prev.player2[0], prev.player2[1], updateRound(prev.player2[2])] };
-    });
-  };
 
   return (
     <div className="flex flex-col p-0 max-w-[420px] mx-auto min-h-screen justify-between">
@@ -201,9 +118,9 @@ const App = () => {
           className="border-white bg-none text-xs uppercase rounded border-[3px] text-white font-bold px-4 transition-all duration-200 active:bg-white active:text-black"
           onClick={() => {
             if (confirm("Are you sure you want to reset?")) {
-              setState(initialState);
-              setRound("Round 1");
-              setPlayer("Player 1");
+              resetGame();
+              resetRound();
+              resetPlayer();
             }
           }}
           type="button"
@@ -213,7 +130,7 @@ const App = () => {
       </div>
 
       {/* Round details */}
-      <RoundCalculator state={roundState} onChange={handleChange} />
+      <RoundCalculator />
 
       <footer className="px-4 pt-2 pb-2 border-t border-[rgba(255,255,255,0.25)] text-sm text-white">
         Original implementation by:{" "}
