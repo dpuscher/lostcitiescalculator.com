@@ -1,8 +1,10 @@
 import { adjustHue, transparentize } from "color2k";
 import { Fragment, useId } from "react";
 
+type Segments = string[] | Record<string, string>;
+
 interface SegmentedControlProps {
-  segments: string[];
+  segments: Segments;
   value: string;
   onChange: (value: string) => void;
   color: string;
@@ -17,14 +19,18 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
     }
   };
 
+  const segmentsArray = Array.isArray(segments)
+    ? segments.map(s => ({ id: s, label: s }))
+    : Object.entries(segments).map(([k, v]) => ({ id: k, label: v }));
+
   // Which segment is active?
-  const activeIndex = segments.findIndex(segment => segment === value);
+  const activeIndex = segmentsArray.findIndex(seg => seg.id === value);
 
   // Calculate derived colors & sizing
   const hueShift = adjustHue(color, 30);
   const inactiveColor = transparentize(color, 0.3);
   const activeTextColor = "#ffffff";
-  const segmentWidth = `calc(${(100 / segments.length).toFixed(3)}% + 2px)`;
+  const segmentWidth = `calc(${(100 / segmentsArray.length).toFixed(3)}% + 2px)`;
 
   // Floater highlight style (position + gradient)
   const floaterStyle: React.CSSProperties = {
@@ -42,16 +48,16 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
         className="absolute pointer-events-none h-[calc(100%+6px)] transition-all duration-200 m-[-3px] rounded"
         style={floaterStyle}
       />
-      {segments.map(segment => {
-        const inputId = `${id}-${segment}`;
-        const isActive = segment === value;
+      {segmentsArray.map(seg => {
+        const inputId = `${id}-${seg.id}`;
+        const isActive = seg.id === value;
         return (
-          <Fragment key={segment}>
+          <Fragment key={seg.id}>
             <input
               id={inputId}
               name={id}
               type="radio"
-              value={segment}
+              value={seg.id}
               checked={isActive}
               onChange={handleChange}
               className="hidden peer"
@@ -64,7 +70,7 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
                 color: isActive ? activeTextColor : inactiveColor,
               }}
             >
-              {segment}
+              {seg.label}
             </label>
           </Fragment>
         );

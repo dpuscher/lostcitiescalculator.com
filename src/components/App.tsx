@@ -1,10 +1,13 @@
 "use client";
+
 import gameState, { resetGame } from "@/stores/gameState";
 import playerState, { resetPlayer, setPlayer } from "@/stores/playerState";
 import roundState, { resetRound, setRound } from "@/stores/roundState";
+import settingsStore from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
 import RoundCalculator from "./RoundCalculator";
 import { SegmentedControl } from "./SegmentedControl";
+import SettingsPanel from "./SettingsPanel";
 import { type RoundState, ranks, suits } from "./types";
 
 /** Compute the total score for a single RoundState. */
@@ -36,6 +39,7 @@ const App = () => {
 
   const player = useStore(playerState);
   const round = useStore(roundState);
+  const settings = useStore(settingsStore);
 
   // Calculate each round’s score for Player 1
   const scoreRound1Player1 = calculateRoundScore(state.player1[0]);
@@ -50,7 +54,9 @@ const App = () => {
   const scorePlayer2 = scoreRound1Player2 + scoreRound2Player2 + scoreRound3Player2;
 
   return (
-    <div className="flex flex-col p-0 max-w-[420px] mx-auto min-h-screen justify-between">
+    <div className="flex flex-col p-0 max-w-[420px] mx-auto min-h-screen justify-between relative">
+      <SettingsPanel />
+
       <header className="flex justify-center items-baseline gap-4 pt-2 mb-4">
         <div className="[background-image:linear-gradient(#d11111,#ffc53d)] bg-clip-text text-transparent font-bold text-2xl italic leading-none">
           Lost Cities
@@ -73,7 +79,7 @@ const App = () => {
             </div>
           </div>
           {/* Player Name (blue) */}
-          <div className="mt-2 text-[#3196f5]">Player 1</div>
+          <div className="mt-2 text-[#3196f5]">{settings.player1Name}</div>
         </div>
 
         {/* Player 2 */}
@@ -89,7 +95,7 @@ const App = () => {
             </div>
           </div>
           {/* Player Name (red) */}
-          <div className="mt-2 text-[#d11111]">Player 2</div>
+          <div className="mt-2 text-[#d11111]">{settings.player2Name}</div>
         </div>
       </div>
 
@@ -106,7 +112,7 @@ const App = () => {
 
           {/* Player selector */}
           <SegmentedControl
-            segments={["Player 1", "Player 2"]}
+            segments={{ "Player 1": settings.player1Name, "Player 2": settings.player2Name }}
             onChange={val => setPlayer(val as typeof player)}
             value={player}
             color={player === "Player 1" ? "#3196f5" : "#d11111"}
