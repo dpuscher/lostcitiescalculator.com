@@ -5,15 +5,15 @@ type Settings = {
   player2Name: string;
 };
 
-const initialSettings: Settings = {
+const INITIAL_SETTINGS: Readonly<Settings> = {
   player1Name: "Player 1",
   player2Name: "Player 2",
 };
 
-const settingsStore = persistentMap<Settings>("settings", initialSettings);
+const settingsStore = persistentMap<Settings>("settings", INITIAL_SETTINGS);
 
 export const resetSettings = () => {
-  settingsStore.set(initialSettings);
+  settingsStore.set(INITIAL_SETTINGS);
 };
 
 export default settingsStore;

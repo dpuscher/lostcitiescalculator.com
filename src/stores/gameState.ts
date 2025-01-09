@@ -1,11 +1,10 @@
-import type { GameState } from "@/components/types";
+import type { GameRoundState, GameState } from "@/components/types";
 import { persistentAtom } from "@nanostores/persistent";
+import { produce } from "immer";
 import playerState, { type PlayerState } from "./playerState";
 import roundState, { type RoundState } from "./roundState";
 
-type CurrentRoundState = GameState["player1"][0];
-
-const initialState: GameState = {
+const INITIAL_STATE: Readonly<GameState> = {
   player1: [
     { expeditions: {}, wagers: {} },
     { expeditions: {}, wagers: {} },
@@ -18,24 +17,21 @@ const initialState: GameState = {
   ],
 };
 
-const gameState = persistentAtom<GameState>("gameState", initialState, {
+const gameState = persistentAtom<GameState>("gameState", INITIAL_STATE, {
   encode: JSON.stringify,
   decode: JSON.parse,
 });
 
 export const resetGame = () => {
-  gameState.set(initialState);
+  gameState.set(INITIAL_STATE);
 };
 
-const getCardsForPlayer = (state: GameState, round: RoundState, player: PlayerState) => {
-  if (player === "Player 1") {
-    if (round === "Round 1") return state.player1[0];
-    if (round === "Round 2") return state.player1[1];
-    return state.player1[2];
-  }
-  if (round === "Round 1") return state.player2[0];
-  if (round === "Round 2") return state.player2[1];
-  return state.player2[2];
+const getRoundIndex = (round: RoundState) =>
+  round === "Round 1" ? 0 : round === "Round 2" ? 1 : 2;
+
+export const getCardsForPlayer = (state: GameState, round: RoundState, player: PlayerState) => {
+  const index = getRoundIndex(round);
+  return player === "Player 1" ? state.player1[index] : state.player2[index];
 };
 
 export const getCurrentRound = (state: GameState) => {
@@ -45,50 +41,19 @@ export const getCurrentRound = (state: GameState) => {
   return getCardsForPlayer(state, round, player);
 };
 
-export const handleChange = (updateRound: (rs: CurrentRoundState) => CurrentRoundState) => {
+export const handleChange = (updateRound: (rs: GameRoundState) => GameRoundState) => {
   const prev = gameState.get();
   const player = playerState.get();
   const round = roundState.get();
 
-  if (player === "Player 1") {
-    // Player 1
-    if (round === "Round 1") {
-      gameState.set({
-        ...prev,
-        player1: [updateRound(prev.player1[0]), prev.player1[1], prev.player1[2]],
-      });
-    } else if (round === "Round 2") {
-      gameState.set({
-        ...prev,
-        player1: [prev.player1[0], updateRound(prev.player1[1]), prev.player1[2]],
-      });
-    } else {
-      // Round 3
-      gameState.set({
-        ...prev,
-        player1: [prev.player1[0], prev.player1[1], updateRound(prev.player1[2])],
-      });
-    }
-  } else {
-    // Player 2
-    if (round === "Round 1") {
-      gameState.set({
-        ...prev,
-        player2: [updateRound(prev.player2[0]), prev.player2[1], prev.player2[2]],
-      });
-    } else if (round === "Round 2") {
-      gameState.set({
-        ...prev,
-        player2: [prev.player2[0], updateRound(prev.player2[1]), prev.player2[2]],
-      });
-    } else {
-      // Round 3
-      gameState.set({
-        ...prev,
-        player2: [prev.player2[0], prev.player2[1], updateRound(prev.player2[2])],
-      });
-    }
-  }
+  const playerKey = player === "Player 1" ? "player1" : "player2";
+  const roundIndex = getRoundIndex(round);
+
+  gameState.set(
+    produce(prev, draft => {
+      draft[playerKey][roundIndex] = updateRound(draft[playerKey][roundIndex]);
+    }),
+  );
 };
 
 export const getDisabledCards = (state: GameState) => {

@@ -7,11 +7,11 @@ export type Rank = (typeof ranks)[number];
 export type ExpeditionCard = `${Suit}-${Rank}`;
 
 export interface GameState {
-  player1: [RoundState, RoundState, RoundState];
-  player2: [RoundState, RoundState, RoundState];
+  player1: [GameRoundState, GameRoundState, GameRoundState];
+  player2: [GameRoundState, GameRoundState, GameRoundState];
 }
 
-export interface RoundState {
+export interface GameRoundState {
   expeditions: { [K in ExpeditionCard]?: true };
   wagers: { [K in Suit]?: 2 | 3 | 4 };
 }

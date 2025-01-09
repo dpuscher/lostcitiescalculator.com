@@ -2,7 +2,7 @@ import gameState, { getCurrentRound, getDisabledCards, handleChange } from "@/st
 import { useStore } from "@nanostores/react";
 import { adjustHue, darken, transparentize } from "color2k";
 import { twMerge } from "tailwind-merge";
-import type { ExpeditionCard, RoundState, Suit } from "./types";
+import type { ExpeditionCard, GameRoundState, Suit } from "./types";
 
 interface ColumnCalculatorProps {
   suit: Suit;
@@ -15,7 +15,7 @@ interface ColumnCalculatorProps {
  */
 const updateWager =
   (suit: Suit) =>
-  (state: RoundState): RoundState => {
+  (state: GameRoundState): GameRoundState => {
     const wager = state.wagers[suit] ?? 1;
 
     if (wager < 4) {
@@ -29,7 +29,7 @@ const updateWager =
 
 const toggleExpeditionCard =
   (key: ExpeditionCard) =>
-  (state: RoundState): RoundState => {
+  (state: GameRoundState): GameRoundState => {
     const next = { ...state.expeditions };
     if (next[key]) {
       delete next[key];
@@ -40,7 +40,7 @@ const toggleExpeditionCard =
   };
 
 /** A helper to extract all card objects in the given suit from the expedition state. */
-const getCardsInSuit = (expeditions: RoundState["expeditions"], suit: Suit) => {
+const getCardsInSuit = (expeditions: GameRoundState["expeditions"], suit: Suit) => {
   return Object.keys(expeditions)
     .map(card => {
       const [cardSuit, valueStr] = card.split("-");
