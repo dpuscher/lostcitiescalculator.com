@@ -2,12 +2,12 @@ import { persistentAtom } from "@nanostores/persistent";
 
 export type RoundState = "Round 1" | "Round 2" | "Round 3";
 
-const initialState: RoundState = "Round 1";
+const INITIAL_STATE: Readonly<RoundState> = "Round 1";
 
-const roundState = persistentAtom<RoundState>("roundState", initialState);
+const roundState = persistentAtom<RoundState>("roundState", INITIAL_STATE);
 
 export const resetRound = () => {
-  roundState.set(initialState);
+  roundState.set(INITIAL_STATE);
 };
 
 export const setRound = (round: RoundState) => {

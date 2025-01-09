@@ -8,10 +8,10 @@ import { useStore } from "@nanostores/react";
 import RoundCalculator from "./RoundCalculator";
 import { SegmentedControl } from "./SegmentedControl";
 import SettingsPanel from "./SettingsPanel";
-import { type RoundState, ranks, suits } from "./types";
+import { type GameRoundState, ranks, suits } from "./types";
 
 /** Compute the total score for a single RoundState. */
-const calculateRoundScore = (state: RoundState) => {
+const calculateRoundScore = (state: GameRoundState) => {
   const total = suits
     .map(suit => {
       // Sum all ranks in this suit

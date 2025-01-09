@@ -2,12 +2,12 @@ import { persistentAtom } from "@nanostores/persistent";
 
 export type PlayerState = "Player 1" | "Player 2";
 
-const initialState: PlayerState = "Player 1";
+const INITIAL_STATE: Readonly<PlayerState> = "Player 1";
 
-const playerState = persistentAtom<PlayerState>("playerState", initialState);
+const playerState = persistentAtom<PlayerState>("playerState", INITIAL_STATE);
 
 export const resetPlayer = () => {
-  playerState.set(initialState);
+  playerState.set(INITIAL_STATE);
 };
 
 export const setPlayer = (player: PlayerState) => {
