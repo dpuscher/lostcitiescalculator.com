@@ -1,4 +1,9 @@
-import type { GameRoundState, GameState } from "@/components/types";
+import {
+  type GameRoundState,
+  type GameState,
+  suitsLongGame,
+  suitsShortGame,
+} from "@/components/types";
 import { persistentAtom } from "@nanostores/persistent";
 import { produce } from "immer";
 import playerState, { type PlayerState } from "./playerState";

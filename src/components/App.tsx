@@ -8,7 +8,13 @@ import { useStore } from "@nanostores/react";
 import RoundCalculator from "./RoundCalculator";
 import { SegmentedControl } from "./SegmentedControl";
 import SettingsPanel from "./SettingsPanel";
-import { type GameRoundState, type PossibleSuits, ranks, suits, suitsShortGame } from "./types";
+import {
+  type GameRoundState,
+  type PossibleSuits,
+  ranks,
+  suitsLongGame,
+  suitsShortGame,
+} from "./types";
 
 /** Compute the total score for a single RoundState. */
 const calculateRoundScore = (state: GameRoundState, suitsToUse: PossibleSuits) => {
@@ -41,7 +47,7 @@ const App = () => {
   const round = useStore(roundState);
   const settings = useStore(settingsStore);
 
-  const suitsToUse = settings.enableLongGame === "true" ? suits : suitsShortGame;
+  const suitsToUse = settings.enableLongGame === "true" ? suitsLongGame : suitsShortGame;
 
   // Calculate each round’s score for Player 1
   const scoreRound1Player1 = calculateRoundScore(state.player1[0], suitsToUse);

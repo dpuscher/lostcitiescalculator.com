@@ -8,11 +8,13 @@ describe("settingsStore", () => {
 
   it("has the correct initial state", () => {
     expect(settingsStore.get()).toEqual({
+      enableLongGame: "false",
       player1Name: "Player 1",
       player2Name: "Player 2",
     });
 
     // Also verify what's in localStorage
+    expect(localStorage.getItem("settingsenableLongGame")).toBe("false");
     expect(localStorage.getItem("settingsplayer1Name")).toBe("Player 1");
     expect(localStorage.getItem("settingsplayer2Name")).toBe("Player 2");
   });
@@ -22,41 +24,49 @@ describe("settingsStore", () => {
 
     // Check the updated value in the store
     expect(settingsStore.get()).toEqual({
+      enableLongGame: "false",
       player1Name: "Alice",
       player2Name: "Player 2",
     });
 
+    expect(localStorage.getItem("settingsenableLongGame")).toBe("false");
     expect(localStorage.getItem("settingsplayer1Name")).toBe("Alice");
     expect(localStorage.getItem("settingsplayer2Name")).toBe("Player 2");
   });
 
   it("updates multiple keys in the store", () => {
     settingsStore.set({
+      enableLongGame: "true",
       player1Name: "Alice",
       player2Name: "Bob",
     });
 
     expect(settingsStore.get()).toEqual({
+      enableLongGame: "true",
       player1Name: "Alice",
       player2Name: "Bob",
     });
 
+    expect(localStorage.getItem("settingsenableLongGame")).toBe("true");
     expect(localStorage.getItem("settingsplayer1Name")).toBe("Alice");
     expect(localStorage.getItem("settingsplayer2Name")).toBe("Bob");
   });
 
   it("resets the store back to initial settings", () => {
     settingsStore.set({
+      enableLongGame: "true",
       player1Name: "Alice",
       player2Name: "Bob",
     });
     expect(settingsStore.get()).toEqual({
+      enableLongGame: "true",
       player1Name: "Alice",
       player2Name: "Bob",
     });
 
     resetSettings();
     expect(settingsStore.get()).toEqual({
+      enableLongGame: "false",
       player1Name: "Player 1",
       player2Name: "Player 2",
     });
