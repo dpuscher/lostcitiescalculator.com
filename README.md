@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<img src="https://raw.githubusercontent.com/dpuscher/lostcitiescalculator.com/refs/heads/main/public/web-app-manifest-192x192.png">
 
-## Getting Started
+# Lost Cities Calculator
 
-First, run the development server:
+A score calculator for the Lost Cities card game.
+
+## Features
+
+- Score calculation for the Lost Cities card game
+- Support for both short and long game modes (5 or 6 expeditions)
+- Player name customization
+- Installable as a PWA with offline support
+
+## Installation
+
+### Prerequisites
+
+- Node.js >= 22
+- npm
+
+### Steps to install dependencies
+
+```bash
+npm install
+```
+
+## Usage
+
+### Running the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the application in the browser at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Running tests and linter
 
-## Learn More
+| Command | Description |
+|---------|-------------|
+| `npm run test` | Run all tests |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run check` | Run linter and formatter |
+| `npm run check:write` | Run linter and formatter with automatic fixes |
 
-To learn more about Next.js, take a look at the following resources:
+## Acknowledgements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Original project by: [Rico Kahler](https://github.com/ricokahler/lostcitiescalculator.com)
