@@ -29,6 +29,11 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  viewportFit: "cover",
+};
+
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -47,10 +52,6 @@ const JSON_LD = {
     name: "Use Calculator",
   },
   inLanguage: "en",
-};
-
-export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
 };
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
