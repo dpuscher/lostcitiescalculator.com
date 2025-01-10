@@ -4,7 +4,7 @@ import { produce } from "immer";
 import playerState, { type PlayerState } from "./playerState";
 import roundState, { type RoundState } from "./roundState";
 
-const INITIAL_STATE: Readonly<GameState> = {
+const INITIAL_STATE: GameState = {
   player1: [
     { expeditions: {}, wagers: {} },
     { expeditions: {}, wagers: {} },
