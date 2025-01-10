@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const APP_NAME = "Lost Cities Scores";
-const APP_DESCRIPTION = "A score calculator for the Lost Cities card game.";
+const APP_NAME = "Lost Cities Score Calculator";
+const APP_DESCRIPTION =
+  "Free online score calculator for Lost Cities card game. Track points, calculate bonuses, and manage multiple rounds easily. Perfect companion for Lost Cities players.";
+const APP_URL = "https://lostcitiescalculator.pages.dev";
 
 export const metadata: Metadata = {
   title: APP_NAME,
   description: APP_DESCRIPTION,
   manifest: "/manifest.json",
-  metadataBase: new URL("https://lost-cities-calculator.pages.dev"),
+  metadataBase: new URL(APP_URL),
   applicationName: APP_NAME,
   appleWebApp: {
     capable: true,
@@ -23,6 +25,7 @@ export const metadata: Metadata = {
     siteName: APP_NAME,
     title: APP_NAME,
     description: APP_DESCRIPTION,
+    url: APP_URL,
   },
 };
 

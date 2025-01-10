@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "Lost Cities Scores",
+  "name": "Lost Cities Score Calculator",
   "short_name": "LC Scores",
   "icons": [
     {
@@ -21,7 +21,8 @@
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "id": "app.dpuscher.lost-cities-scores",
+  "id": "app.dpuscher.lostcitiescalculator",
   "lang": "en",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "dir": "ltr"
 }
