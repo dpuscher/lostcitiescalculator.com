@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lost Cities Calculator
 
-## Getting Started
+A score calculator for the Lost Cities card game.
 
-First, run the development server:
+## Features
+
+- Score calculation for the Lost Cities card game
+- Support for both short and long game modes
+- Player name customization
+- Round and player selection
+- Reset functionality
+
+## Installation
+
+### Prerequisites
+
+- Node.js
+- npm, yarn, pnpm, or bun
+
+### Steps to install dependencies
+
+```bash
+npm install
+```
+
+## Usage
+
+### Running the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the application in the browser at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Editing the main page
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Modify `src/app/page.tsx`.
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+No specific environment variables are required for this project.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Configuration files
 
-## Deploy on Vercel
+- `next.config.ts`
+- `postcss.config.mjs`
+- `tailwind.config.ts`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Testing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Running tests
+
+| Command | Description |
+|---------|-------------|
+| `npm run test` | Run all tests |
+| `npm run test:watch` | Run tests in watch mode |
+
+## Linting
+
+### Running linter
+
+```bash
+npm run lint
+```
+
+## Deployment
+
+### Deploying on Vercel
+
+Refer to the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Acknowledgements
+
+- Original project by: [Rico Kahler](https://github.com/ricokahler/lostcitiescalculator.com)
+- Adapted by: [Daniel Puscher](http://github.com/dpuscher/lostcitiescalculator.com)
+
+## License
+
+Specify the license under which the project is distributed.
