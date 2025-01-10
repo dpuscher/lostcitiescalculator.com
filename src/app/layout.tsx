@@ -29,6 +29,26 @@ export const metadata: Metadata = {
   },
 };
 
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Lost Cities Score Calculator",
+  applicationCategory: "Game Application",
+  applicationSubCategory: "Score Calculator",
+  operatingSystem: "Any",
+  description:
+    "Online score calculator for the Lost Cities card game. Calculate points, track multiple rounds, and manage game scores easily.",
+  url: APP_URL,
+  image: new URL("/web-app-manifest-512x512.png", APP_URL),
+  keywords: "Lost Cities, score calculator, card game, game management",
+  potentialAction: {
+    "@type": "ViewAction",
+    target: APP_URL,
+    name: "Use Calculator",
+  },
+  inLanguage: "en",
+};
+
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
@@ -40,6 +60,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
     <html lang="en" dir="ltr">
       <head>
         <meta name="apple-mobile-web-app-title" content={APP_NAME} />
+        <script type="application/ld+json">{JSON.stringify(JSON_LD)}</script>
       </head>
       <body className="antialiased">{children}</body>
     </html>
