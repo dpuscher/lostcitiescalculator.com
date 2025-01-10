@@ -6,10 +6,10 @@ export type Rank = (typeof ranks)[number];
 
 export type ExpeditionCard = `${Suit}-${Rank}`;
 
-export interface GameState {
+export type GameState = Readonly<{
   player1: [GameRoundState, GameRoundState, GameRoundState];
   player2: [GameRoundState, GameRoundState, GameRoundState];
-}
+}>;
 
 export interface GameRoundState {
   expeditions: { [K in ExpeditionCard]?: true };
