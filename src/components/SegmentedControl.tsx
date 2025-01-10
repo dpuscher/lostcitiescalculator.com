@@ -21,7 +21,7 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
 
   const segmentsArray = Array.isArray(segments)
     ? segments.map(s => ({ id: s, label: s }))
-    : Object.entries(segments).map(([k, v]) => ({ id: k, label: v }));
+    : Object.entries(segments).map(([k, v]) => ({ id: k, label: v || k }));
 
   // Which segment is active?
   const activeIndex = segmentsArray.findIndex(seg => seg.id === value);

@@ -8,11 +8,11 @@ import { useStore } from "@nanostores/react";
 import RoundCalculator from "./RoundCalculator";
 import { SegmentedControl } from "./SegmentedControl";
 import SettingsPanel from "./SettingsPanel";
-import { type GameRoundState, ranks, suits } from "./types";
+import { type GameRoundState, type PossibleSuits, ranks, suits, suitsShortGame } from "./types";
 
 /** Compute the total score for a single RoundState. */
-const calculateRoundScore = (state: GameRoundState) => {
-  const total = suits
+const calculateRoundScore = (state: GameRoundState, suitsToUse: PossibleSuits) => {
+  const total = suitsToUse
     .map(suit => {
       // Sum all ranks in this suit
       const parsed = ranks.map(rank =>
@@ -41,16 +41,18 @@ const App = () => {
   const round = useStore(roundState);
   const settings = useStore(settingsStore);
 
+  const suitsToUse = settings.enableLongGame === "true" ? suits : suitsShortGame;
+
   // Calculate each round’s score for Player 1
-  const scoreRound1Player1 = calculateRoundScore(state.player1[0]);
-  const scoreRound2Player1 = calculateRoundScore(state.player1[1]);
-  const scoreRound3Player1 = calculateRoundScore(state.player1[2]);
+  const scoreRound1Player1 = calculateRoundScore(state.player1[0], suitsToUse);
+  const scoreRound2Player1 = calculateRoundScore(state.player1[1], suitsToUse);
+  const scoreRound3Player1 = calculateRoundScore(state.player1[2], suitsToUse);
   const scorePlayer1 = scoreRound1Player1 + scoreRound2Player1 + scoreRound3Player1;
 
   // Calculate each round’s score for Player 2
-  const scoreRound1Player2 = calculateRoundScore(state.player2[0]);
-  const scoreRound2Player2 = calculateRoundScore(state.player2[1]);
-  const scoreRound3Player2 = calculateRoundScore(state.player2[2]);
+  const scoreRound1Player2 = calculateRoundScore(state.player2[0], suitsToUse);
+  const scoreRound2Player2 = calculateRoundScore(state.player2[1], suitsToUse);
+  const scoreRound3Player2 = calculateRoundScore(state.player2[2], suitsToUse);
   const scorePlayer2 = scoreRound1Player2 + scoreRound2Player2 + scoreRound3Player2;
 
   return (
@@ -79,7 +81,7 @@ const App = () => {
             </div>
           </div>
           {/* Player Name (blue) */}
-          <div className="mt-2 text-[#3196f5]">{settings.player1Name}</div>
+          <div className="mt-2 text-[#3196f5]">{settings.player1Name || "Player 1"}</div>
         </div>
 
         {/* Player 2 */}
@@ -95,7 +97,7 @@ const App = () => {
             </div>
           </div>
           {/* Player Name (red) */}
-          <div className="mt-2 text-[#d11111]">{settings.player2Name}</div>
+          <div className="mt-2 text-[#d11111]">{settings.player2Name || "Player 2"}</div>
         </div>
       </div>
 
@@ -139,7 +141,7 @@ const App = () => {
       <RoundCalculator />
 
       <footer className="border-[rgba(255,255,255,0.25)] border-t px-4 pt-2 pb-2 text-sm text-white">
-        Original implementation by:
+        Original by:{" "}
         <a
           href="https://github.com/ricokahler/lostcitiescalculator.com"
           className="text-[rgba(255,255,255,0.7)] underline"
@@ -147,6 +149,15 @@ const App = () => {
           rel="noopener noreferrer"
         >
           Rico Kahler
+        </a>{" "}
+        · Adapted by:{" "}
+        <a
+          href="http://github.com/dpuscher/lostcitiescalculator.com"
+          className="text-[rgba(255,255,255,0.7)] underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Daniel Puscher
         </a>
       </footer>
     </div>
