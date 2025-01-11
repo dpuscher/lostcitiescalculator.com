@@ -6,7 +6,7 @@ import roundState, { resetRound, setRound } from "@/stores/roundState";
 import settingsStore from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
 import RoundCalculator from "./RoundCalculator";
-import { SegmentedControl } from "./SegmentedControl";
+import SegmentedControl from "./SegmentedControl";
 import SettingsPanel from "./SettingsPanel";
 import {
   type GameRoundState,
@@ -65,19 +65,27 @@ const App = () => {
     <div className="relative mx-auto flex min-h-screen max-w-[420px] flex-col justify-between p-0">
       <SettingsPanel />
 
-      <header className="mb-4 flex items-baseline justify-center gap-4 pt-2">
-        <div className="bg-clip-text font-bold text-2xl text-transparent italic leading-none [background-image:linear-gradient(#d11111,#ffc53d)]">
-          Lost Cities
-        </div>
-        <div className="font-bold text-[#efe9f5] text-base leading-none">Score Calculator</div>
+      <header className="mb-4 pt-2">
+        <h1 className="flex items-baseline justify-center gap-4">
+          <div className="bg-clip-text font-bold text-2xl text-transparent italic leading-none [background-image:linear-gradient(#d11111,#ffc53d)]">
+            Lost Cities
+          </div>
+          <div className="font-bold text-[#efe9f5] text-base leading-none">Score Calculator</div>
+        </h1>
       </header>
 
       {/* Scores summary */}
-      <div className="mb-4 flex gap-4 px-4">
+      <section className="mb-4 flex gap-4 px-4" aria-labelledby="scoreboard-heading">
+        <h2 id="scoreboard-heading" className="sr-only">
+          Scoreboard
+        </h2>
+
         {/* Player 1 */}
         <div className="flex flex-1 flex-col items-center font-bold">
-          <div className="flex flex-col">
-            <div className="mx-auto font-extrabold text-2xl">{scorePlayer1}</div>
+          <div className="flex flex-col" aria-live="polite">
+            <output className="mx-auto font-extrabold text-2xl" aria-label="Player 1 total score">
+              {scorePlayer1}
+            </output>
             <div className="mx-auto flex gap-2 font-semibold opacity-70">
               <div className="flex flex-col">{scoreRound1Player1}</div>
               <div>+</div>
@@ -92,8 +100,10 @@ const App = () => {
 
         {/* Player 2 */}
         <div className="flex flex-1 flex-col items-center font-bold">
-          <div className="flex flex-col">
-            <div className="mx-auto font-extrabold text-2xl">{scorePlayer2}</div>
+          <div className="flex flex-col" aria-live="polite">
+            <output className="mx-auto font-extrabold text-2xl" aria-label="Player 2 total score">
+              {scorePlayer2}
+            </output>
             <div className="mx-auto flex gap-2 font-semibold opacity-70">
               <div className="flex flex-col">{scoreRound1Player2}</div>
               <div>+</div>
@@ -105,7 +115,7 @@ const App = () => {
           {/* Player Name (red) */}
           <div className="mt-2 text-[#d11111]">{settings.player2Name || "Player 2"}</div>
         </div>
-      </div>
+      </section>
 
       {/* Buttons / SegmentedControls */}
       <div className="mb-4 flex gap-2 px-4">
@@ -116,6 +126,7 @@ const App = () => {
             onChange={val => setRound(val as typeof round)}
             value={round}
             color="#00964e"
+            label="Select round"
           />
 
           {/* Player selector */}
@@ -124,6 +135,7 @@ const App = () => {
             onChange={val => setPlayer(val as typeof player)}
             value={player}
             color={player === "Player 1" ? "#3196f5" : "#d11111"}
+            label="Select player"
           />
         </div>
 

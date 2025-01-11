@@ -8,9 +8,10 @@ interface SegmentedControlProps {
   value: string;
   onChange: (value: string) => void;
   color: string;
+  label: string;
 }
 
-export const SegmentedControl = ({ segments, value, onChange, color }: SegmentedControlProps) => {
+const SegmentedControl = ({ segments, value, onChange, color, label }: SegmentedControlProps) => {
   const id = useId();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,12 +42,18 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
 
   return (
     <div
-      className="relative flex rounded border-[3px] border-solid"
+      className="relative flex rounded border-[3px] border-solid focus-within:outline"
       style={{ borderColor: inactiveColor }}
+      role="radiogroup"
+      aria-labelledby={`${id}-label`}
     >
+      <span id={`${id}-label`} className="sr-only">
+        {label}
+      </span>
       <div
         className="pointer-events-none absolute m-[-3px] h-[calc(100%+6px)] rounded transition-all duration-200"
         style={floaterStyle}
+        aria-hidden="true"
       />
       {segmentsArray.map(seg => {
         const inputId = `${id}-${seg.id}`;
@@ -60,7 +67,7 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
               value={seg.id}
               checked={isActive}
               onChange={handleChange}
-              className="peer hidden"
+              className="peer sr-only"
             />
             <label
               htmlFor={inputId}
@@ -78,3 +85,5 @@ export const SegmentedControl = ({ segments, value, onChange, color }: Segmented
     </div>
   );
 };
+
+export default SegmentedControl;

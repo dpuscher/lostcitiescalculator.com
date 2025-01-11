@@ -90,7 +90,13 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
   } as React.CSSProperties;
 
   return (
-    <div className="flex flex-1 flex-col gap-4 text-center" style={containerStyles}>
+    <fieldset
+      className="flex flex-1 flex-col gap-4 text-center"
+      style={containerStyles}
+      aria-labelledby={`${suit}-label`}
+    >
+      <h2 id={`${suit}-label`} className="sr-only">{`Controls for ${suit}`}</h2>
+
       {/* Controls */}
       <div className="flex flex-col gap-2">
         {/* Wager button */}
@@ -105,8 +111,14 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
           }}
           onClick={() => handleChange(updateWager(suit))}
           type="button"
+          aria-label={
+            wager < 4 ? `Increase wager for ${suit} to ${wager + 1}` : `Reset wager for ${suit}`
+          }
+          aria-pressed={wager > 1}
         >
-          🫱🏼‍🫲🏾{wager > 1 && <span className="text-base">x{wager}</span>}
+          <span aria-hidden="true">🫱🏼‍🫲🏾</span>
+          <span className="sr-only">{`Wager for ${suit}`}</span>
+          {wager > 1 && <span className="text-base">x{wager}</span>}
         </button>
 
         {/* Expedition cards */}
@@ -119,6 +131,8 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
             <button
               disabled={isDisabled}
               key={key}
+              aria-disabled={isDisabled}
+              aria-pressed={isActive}
               className={twMerge(
                 BASE_BUTTON_CLASSES,
                 isActive && "border-0 text-black",
@@ -129,6 +143,9 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
               }}
               onClick={() => handleChange(toggleExpeditionCard(key))}
               type="button"
+              aria-label={
+                isActive ? `Deselect ${suit} card ${value}` : `Select ${suit} card ${value}`
+              }
             >
               {value}
             </button>
@@ -137,14 +154,14 @@ export const ColumnCalculator = ({ suit, color = suit }: ColumnCalculatorProps) 
       </div>
 
       {/* Summary */}
-      <div className="flex flex-col font-semibold">
+      <div className="flex flex-col font-semibold" aria-live="polite">
         <div className="flex items-baseline justify-center gap-1 text-xs">
           <div className={twMerge("opacity-70", wager > 1 && "opacity-100")}>{roi}</div>
           <div className={twMerge("opacity-70", wager > 1 && "opacity-100")}>x{wager}</div>
         </div>
         <div className={twMerge("text-xs opacity-70", bonus && "opacity-100")}>+{bonus}</div>
-        <div className="font-bold text-xl">{score}</div>
+        <output className="font-bold text-xl">{score}</output>
       </div>
-    </div>
+    </fieldset>
   );
 };

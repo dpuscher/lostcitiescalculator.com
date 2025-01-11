@@ -1,10 +1,12 @@
 import settingsStore from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { IoSettings, IoSettingsOutline } from "react-icons/io5";
 
 const SettingsPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const firstInputRef = useRef<HTMLInputElement | null>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
   const settings = useStore(settingsStore);
 
   type SettingsKey = keyof typeof settings;
@@ -33,6 +35,9 @@ const SettingsPanel = () => {
         className="absolute top-1 right-0 p-2 text-gray-400 text-xl"
         onClick={toggleOpen}
         type="button"
+        aria-label={isOpen ? "Close settings" : "Open settings"}
+        aria-expanded={isOpen}
+        ref={toggleButtonRef}
       >
         {isOpen ? <IoSettings /> : <IoSettingsOutline />}
       </button>
@@ -46,7 +51,7 @@ const SettingsPanel = () => {
                 ["Player 1", "player1Name", updatePlayer1Name],
                 ["Player 2", "player2Name", updatePlayer2Name],
               ] as const
-            ).map(([label, key, update]) => (
+            ).map(([label, key, update], index) => (
               <Fragment key={key}>
                 <label htmlFor={key} className="font-semibold">
                   {label}:
@@ -58,12 +63,13 @@ const SettingsPanel = () => {
                   onChange={update}
                   className="rounded border border-gray-300 p-1 text-black"
                   placeholder="Enter name"
+                  ref={index === 0 ? firstInputRef : null}
                 />
               </Fragment>
             ))}
           </div>
 
-          <label className="flex cursor-pointer items-center gap-2">
+          <label className="flex cursor-pointer items-center gap-2" htmlFor="enableLongGame">
             <div className="relative inline-flex">
               <input
                 id="enableLongGame"
